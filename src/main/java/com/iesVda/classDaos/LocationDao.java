@@ -56,13 +56,11 @@ public class LocationDao implements DaoInterface<Location> {
 		try {
 			this.rs = stmt.executeQuery(sql);
 			if (rs.next()) { // Mover el cursor al primer registro
-
 				location.setStreetAddress(rs.getString("street_address"));
-				location.setPostalCode(Long.parseLong(rs.getString("postal_code")));
+				location.setPostalCode(rs.getString("postal_code"));
 				location.setCity(rs.getString("city"));
 				location.setStateProvice(rs.getString("state_province"));
 				location.setCountryId(rs.getString("country_id"));
-
 			} else {
 				// Manejar el caso en que no se encuentre ningún resultado para el ID dado
 				System.out.println("No se encontró ninguna localización con el ID proporcionado.");

@@ -2,6 +2,7 @@
 <%@ page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ page import="com.iesVda.classDaos.*"%>
+<%@ page import="com.iesVda.classDaos.Location"%>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -36,7 +37,7 @@
                     
                     Employee employee = new Employee();
                     employee = employeeDao.get(employeeInput);
-                    
+                                    
                     Job employeeJob = employee.getJob();
                     Department employeeDepartment = employee.getDepartment();
 
@@ -46,14 +47,8 @@
                     Region countryRegion = locationCountry.getRegion();
 
                     List<JobHistory> employeeJobHistoryList = employee.getJobHistory();
-					
-                    %>
-                    
-                    	<h1>Empleado Id = <%= employee.getEmployeeId()%></h1>
-                    
-                    <%
-                    
-                    
+                                                     
+                   
                     if (employee.getEmployeeId() != 0) { %>
                
                         <h2>Información del Empleado</h2>

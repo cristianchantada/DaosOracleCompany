@@ -53,19 +53,21 @@ public class EmployeeDao implements DaoInterface<Employee> {
 	public Employee get(Employee employee) {
 
 		int eId = employee.getEmployeeId();
+
+		Employee e = new Employee(eId);
+		sql = "SELECT employee_id, first_name, last_name, email, phone_number" 
+		+ ", hire_date, job_id, salary, commission_pct,"
+		+ "manager_id, department_id"
+		+ " FROM employees WHERE employee_id = " + eId;
 		
-		System.out.println("eid = " + eId);
-		
-		
-		Employee e = new Employee();
-		sql = "SELECT first_name, last_name, email, phone_number" + ", hire_date, job_id, salary, commission_pct,"
-				+ "manager_id, department_id" + " FROM employees WHERE employee_id = " + eId;
 		try {
 			this.rs = stmt.executeQuery(sql);
 			if (rs.next()) { // Mover el cursor al primer registro
 
-				int employeeId = rs.getInt("employee_id");
-				e.setEmployeeId(Integer.parseInt(rs.getString("employee_id")));
+				e.setEmployeeId(rs.getInt("employee_id"));	
+				
+				System.out.println("e.getEmployeeId en EMPLOYEE DAO" + e.getEmployeeId());
+				
 				e.setFirstName(rs.getString("first_name"));
 				e.setLastName(rs.getString("last_name"));
 				e.setEmail(rs.getString("email"));
@@ -74,7 +76,6 @@ public class EmployeeDao implements DaoInterface<Employee> {
 				e.setSalary(Double.parseDouble(rs.getString("salary")));
 				e.setCommissionPct(Double.parseDouble(rs.getString("commission_pct")));
 				
-				System.out.println("eId de rs.getInt()" + employeeId);
 				System.out.println("e employeeId = " + e.getEmployeeId());
 				
 				if (!(rs.getString("manager_id") == null)) {
@@ -89,11 +90,7 @@ public class EmployeeDao implements DaoInterface<Employee> {
 					e.setDepartmentId(0);
 				}
 
-				// e.setDepartment();
-				// e.setManager();
-				// e.setWorking();
-
-				try {
+			try {
 					// Definir el formato de la cadena de fecha
 					DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -107,9 +104,11 @@ public class EmployeeDao implements DaoInterface<Employee> {
 			} else {
 				// Manejar el caso en que no se encuentre ningún resultado para el ID dado
 				System.out.println("No se encontró ningún empleado con el ID proporcionado.");
+				e.setEmployeeId(0);;
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
+			System.out.println("ENTRA AQUÏ employeeDao");
 		} catch (NumberFormatException nfe) {
 			System.out.println("Ha ocurrido un error de parseo a entero en EmployeeDao: " + nfe.getMessage());
 			nfe.printStackTrace();

@@ -52,6 +52,8 @@ public class DepartmentDao implements DaoInterface<Department> {
 		int departmentId = department.getDepartmentId();
 		sql = "SELECT * FROM departments WHERE department_id = " + departmentId;
 		
+		System.out.println("DEPARTMENT ID = " + departmentId);
+		
 		try {
 			this.rs = stmt.executeQuery(sql);
 			if (rs.next()) { // Mover el cursor al primer registro
@@ -64,6 +66,7 @@ public class DepartmentDao implements DaoInterface<Department> {
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
+			System.out.println("ENTRA AQUÏ");
 		} catch (NumberFormatException nfe) {
 			System.out.println("Ha ocurrido un error de parseo a entero en DepartmentDao: " + nfe.getMessage());
 			nfe.printStackTrace();

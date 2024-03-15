@@ -3,7 +3,7 @@ public class Location {
 
     private int locationId;
     private String streetAddress;
-    private long postalCode;
+    private String postalCode;
     private String city;
     private String stateProvice;
     private String countryId;
@@ -25,7 +25,7 @@ public class Location {
     	this.locationId = locationId;
     }
 
-    public Location(int locationId, String streetAddress, int postalCode, String city, String stateProvice, Country country) {
+    public Location(int locationId, String streetAddress, String postalCode, String city, String stateProvice, Country country) {
         this.locationId = locationId;
         this.streetAddress = streetAddress;
         this.postalCode = postalCode;
@@ -50,11 +50,11 @@ public class Location {
         this.streetAddress = streetAddress;
     }
 
-    public long getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(long postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
