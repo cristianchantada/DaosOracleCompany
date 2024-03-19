@@ -1,16 +1,18 @@
 package com.iesVda.classDaos;
 import java.time.LocalDate;
+import java.util.List;
 
 
-public class JobHistory {
+public class jobHistory {
 
     private int employeeId;
     private LocalDate startDate;
     private LocalDate endDate;
     private String jobId;
     private int departmentId;
-    Department department;
-    Job job;
+    private Department department;
+    private Job job;
+    private String job_title; 
 
     @Override
     public String toString() {
@@ -20,13 +22,13 @@ public class JobHistory {
                 "\n\t\tDepartamento:";
     }
 
-    public JobHistory(){}
+    public jobHistory(){}
     
-    public JobHistory(int employeeId) {
+    public jobHistory(int employeeId) {
     	this.employeeId = employeeId;
     }
 
-    public JobHistory(int employeeId, LocalDate startDate, String jobId, int departmentId) {
+    public jobHistory(int employeeId, LocalDate startDate, String jobId, int departmentId) {
         this(employeeId);
         this.startDate = startDate;
         this.jobId = jobId;
@@ -89,4 +91,12 @@ public class JobHistory {
 		this.job = job;
 	}
 
+	public String getJob_title() {
+		return job_title;
+	}
+
+	public void setJob_title(String job_title) {
+		this.job_title = job_title;
+	}
+	
 }

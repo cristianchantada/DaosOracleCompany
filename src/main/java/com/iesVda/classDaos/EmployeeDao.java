@@ -126,14 +126,13 @@ public class EmployeeDao implements DaoInterface<Employee> {
 		job = jobDao.get(job);
 		e.setJob(job);
 
-		JobHistory jobHistory = new JobHistory(e.getEmployeeId());
-		JobHistoryDao jobHistoryDao = new JobHistoryDao();
-		jobHistory.setEmployeeId(eId);
-		List<JobHistory> jobsList = jobHistoryDao.getJobHistoryList(jobHistory);
+		jobHistory jobHistoryVar = new jobHistory(e.getEmployeeId());
+		jobHistoryDao jobHistoryDao = new jobHistoryDao();
+		jobHistoryVar.setEmployeeId(eId);
+
+		List<jobHistory> jobsList = jobHistoryDao.getEmployeeJobHistory(eId);
+		
 		e.setJobHistory(jobsList);
-		
-		
-		System.out.println("e employEEEE iD = " + e.getEmployeeId());
 		return e;
 	}
 
@@ -199,7 +198,75 @@ public class EmployeeDao implements DaoInterface<Employee> {
 
 	@Override
 	public List<Employee> getAll() {
-		return employees;
+		
+		sql = "SELECT employee_id, first_name, last_name, email, phone_number" + ", hire_date, job_id, salary, commission_pct,"
+				+ "manager_id, department_id" + " FROM employees";
+			
+		List<Employee> employeeList = new ArrayList<>();
+		
+		try {
+			this.rs = stmt.executeQuery(sql);
+			while(rs.next()) { // Mover el cursor al primer registro
+				Employee e = new Employee();
+				e.setEmployeeId(rs.getInt("employee_id"));
+				e.setFirstName(rs.getString("first_name"));
+				e.setLastName(rs.getString("last_name"));
+				e.setEmail(rs.getString("email"));
+				e.setPhoneNumber(rs.getString("phone_number"));
+				e.setJobId(rs.getString("job_id"));
+				
+				
+				if(rs.getString("salary") != null) {
+					e.setSalary(Double.parseDouble(rs.getString("salary")));
+				} else {
+					e.setSalary(0);
+				}
+				
+				if(rs.getString("commission_pct") != null){
+					e.setCommissionPct(Double.parseDouble(rs.getString("commission_pct")));
+				} else {
+					e.setCommissionPct(0);
+				}
+
+				if (!(rs.getString("manager_id") == null)) {
+					e.setManagerId(Integer.parseInt(rs.getString("manager_id")));
+				} else {
+					e.setManagerId(0);
+				}
+
+				if (!((rs.getString("department_id")) == null)) {
+					e.setDepartmentId(Integer.parseInt(rs.getString("department_id")));
+				} else {
+					e.setDepartmentId(0);
+				}
+
+				// Lógica de obtención de fecha y formateo a LocalDate
+				try {
+					// Definir el formato de la cadena de fecha
+					DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+					// Parsear la cadena a LocalDate
+					LocalDate localDate = LocalDate.parse(rs.getString("hire_date"), format);
+					e.setHireDate(localDate);
+					System.out.println("Fecha parseada: " + localDate);
+				} catch (DateTimeParseException dTe) {
+					System.out.println("Error al parsear la fecha en EmployeeDao: " + dTe.getMessage());
+				}
+				
+				employeeList.add(e);
+				
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} catch (NumberFormatException nfe) {
+			System.out.println("Ha ocurrido un error de parseo a entero en EmployeeDao: " + nfe.getMessage());
+			nfe.printStackTrace();
+		} finally {
+			closeConnection();
+		}
+
+		return employeeList;
+
 	}
 
 	@Override

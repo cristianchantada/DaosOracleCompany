@@ -12,7 +12,7 @@ public class Employee {
     private LocalDate hireDate;
     private String jobId;
     private Job job;
-    private List<JobHistory> jobHistory;
+    private List<jobHistory> jobHistoryList;
     private double salary;
     private double commissionPct;
     private int managerId;
@@ -101,12 +101,12 @@ public class Employee {
         this.job = job;
     }
 
-    public List<JobHistory> getJobHistory() {
-        return jobHistory;
+    public List<jobHistory> getJobHistory() {
+        return jobHistoryList;
     }
 
-    public void setJobHistory(List<JobHistory> jobHistory) {
-        this.jobHistory = jobHistory;
+    public void setJobHistory(List<jobHistory> jobHistory) {
+        this.jobHistoryList = jobHistory;
     }
 
     public double getSalary() {
@@ -192,8 +192,8 @@ public class Employee {
                 "\n\tDepartamento: " + department +
                 "\n\tHistorial de trabajos: ";
 
-        for(int i = 0; i < jobHistory.toArray().length; i++){
-            data += "\n\tTrabajo Nº" + i + ":\n\t\t" + jobHistory;
+        for(int i = 0; i < jobHistoryList.toArray().length; i++){
+            data += "\n\tTrabajo Nº" + i + ":\n\t\t" /*+ jobHistoryList*/;
         }
 
                 /*", managerId=" + managerId +
